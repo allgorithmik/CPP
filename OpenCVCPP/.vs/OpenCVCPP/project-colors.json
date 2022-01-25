@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "9d0b6ebe-ddb1-4868-bd5e-31bd4c37f294": {
+      "ProjectGuid": "9d0b6ebe-ddb1-4868-bd5e-31bd4c37f294",
+      "DisplayName": "OpenCVCPP",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
