@@ -4,10 +4,10 @@ int main(){
     int number1 {100};
 
     number1 += 1;
-    std::cout << "Compound assignment for addition: " << number1 << std::endl;           //compound operator is not accepted as expression in cout statement???
+    std::cout << "Compound assignment for addition: " << number1 << std::endl;          //compound operator is not accepted as expression in cout statement???
 
-    number1 -= 1;
-    std::cout << "Compound assignment for subtraction: " << number1 << std::endl;
+    number1 -= 1;                                                                       //The REAL CONCEPT name is COMPOUND ASSIGNMENT OPERATOR, which means it preforms the
+    std::cout << "Compound assignment for subtraction: " << number1 << std::endl;       //operation and then ASSIGNS the new value to the variables.
 
     number1 *= 2;
     std::cout << "Compound assignment for multiplication: " << number1 << std::endl;
