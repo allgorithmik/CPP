@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": "MSVC"
+		},
+		{
+			"path": "GCC"
+		},
+		{
+			"path": "Clang"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"ostream": "cpp"
+		}
+	}
+}
