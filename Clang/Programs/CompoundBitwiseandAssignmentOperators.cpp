@@ -27,5 +27,7 @@ int main(int argc, char **argv){
     //Compound XOR
     std::cout << std::setw(COLUMN_WIDTH) << "Compound XOR operator: " << std::setw(COLUMN_WIDTH) << std::bitset<8>(sandbox) << (sandbox ^= 0b00000011) << std::endl;
 
+    //compound negation will not work as it needs binary operands
+
     return 0;
 }
