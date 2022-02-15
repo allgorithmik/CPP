@@ -28,5 +28,4 @@ int main(int argc, char **argv){                                        //normal
 
     //easier way to achieve the same output as above
     std::cout << std:: endl << "message is: " << array2;                //C++ supports direct printing of char arrays, provided its terminated by \0 => STRING LITERAL
-    return 0;
 }
