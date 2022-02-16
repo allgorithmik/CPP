@@ -14,7 +14,12 @@ int main(int argc, char **argv){
         "MACHINE LEARNING",
         "ARTIFICIAL INTELLIGENCE",
         "ROBOTICS",
-        "MATHEMATICS"
+        "MATHEMATICS",
+        "COMPUTER VISION",
+        "MATERIAL SCIENCES",
+        "PHYSICS",
+        "CONTROL THEORY",
+        "ELECTRONICS"
     };
 
     for(size_t i {}; i < std::size(char_array); ++i){   //we can print directly the values by looping the outer dimension
