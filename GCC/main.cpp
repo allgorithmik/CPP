@@ -1,51 +1,59 @@
 #include<iostream>
 
-int main(int argc, char **argv){
-    //ARRAYS ARE ALLOCATED ON THE HEAP USING THE new OPERATOR, CAN ALSO USE std::nothrow VERSION OF new TO SUPPRESS ANY std::bad_alloc etc EXCEPTIONS
-    int *pointer1 {new int[100]};                                   //normal integer array of size 100 => garbage values
-    int *pointer2 {new int[100] {}};                                //normal integer array of size 100 => initialized to 0
-    int *pointer3 {new int[5] {1,2,3,4,5}};                         //normal integer array of size 5 with values {1,2,3,4,5}
-    int *pointer4 {new(std::nothrow) int[100] {}};                  //normal integer array of size 100 => garbage values => but with std::nothrow clause
-    int *pointer5 {new(std::nothrow) int[5] {1,2,3,4,5}};           //normal integer array of size 5 => with values {1,2,3,4,5} => but with std::nothrow clause
+int main(int argc, char **argv){    //SO WORKING WITH REFERENCE IS SAME AS WORKING WITH A VARIABLE DIRECTLY, REFERENCES ARE JUST ALIAS'
+    //REFERENCES ARE ALIAS' TO VARIABLES => WE CAN ASSIGN AN ALIAS TO A VARIABLE AND USE THAT ALIAS AS IF WE ARE WORKING WITH THE ORIGINAL VARIABLE
+    //THIS ALIAS IS WHAT WE CALL AS REFERENCES => ESSENTIALLY WE ARE READING/WRITING VALUES FROM THE SAME MEMORY ADDRESS
 
-    if(pointer5){
-        for(size_t i {}; i < 5; ++i){                               //array index based looping
-            std::cout << "Using normal array index to" << +
-            " get values: " << pointer5[i] << std::endl;
-        }
-    }
-    else{
-        std::cout << "pointer cannot be used" << std::endl;
-    }
+    //VARIABLE DECLARATIONS
+    int variable1 {100};
+    double variable2 {55.55};
 
-    if(pointer5){                                                   //pointer arithmatic based looping
-        for(size_t i {}; i < 5; ++i){
-            std::cout << "Using pointer arithmatic to" << +
-            " get values: " << *(pointer5 + i) << std::endl;
-        }
-    }
-    else{
-        std::cout << "pointer cannot be used" << std::endl;
-    }
+    //REFERENCES OF VARIABLES ABOVE
+    int &variable1_reference {variable1};                                               //declaring references by initialization
+    double &variable2_reference = variable2;                                            //declaring references by assignment
 
-    int *pointer6 {new int[10] {}};
-    delete[] pointer6;                                              //ARRAY VERSION of deleting/releasing the dynamic memory allocation in heap
-    pointer6 = nullptr;                                             //ARRAY VERSION of resetting the pointer pointing to dynamic memory location in heap
-    
-    //STATIC ARRAYS AND DYNAMIC ARRAYS ARE QUITE DIFFERENT
-    //THE REASON STATIC ARRAYS AND DYNAMIC ARRAYS ARE QUITE DIFFERENT IS BECAUSE DYNAMIC ARRAYS GET DECAYED TO A POINTER, LOSING INFORMATION NECESSARY FOR THE RANGE BASED
-    //FOR LOOP OPERATIONS => NORMAL for loops WILL WORK => RESTRICTION ONLY FOR RANGE BASED LOOP
-    double *pointer7 {new double[10] {}};                           //std::size() does NOT WORK for dynamic arrays
-    //std::cout << "std::size() does NOT WORK for dynamic arrays" <<//ERROR
-    // + << std::size(pointer7) << std::endl;
-    
-    /*for(size_t i: pointer7){                                      //RANGE BASED for loop DOES NOT WORK ON DYNAMIC ARRAYS
-        std::cout << "Range based for loop DOES NOT WORK for " << + //ERROR
-        "dynamic arrays" << std::endl;
-    }*/
+    //int &variable_dummy;  ERROR => declaring references always requires initialization, either initialization or assignment
 
-    delete[] pointer7;                                              //DELETE AND RESET MEMORY/POINTER LIKE A GOOD C++ CITIZEN!
-    pointer7 = nullptr;
+    std::cout << "-----------------VALUES------------------" << std::endl;
 
+    std::cout << "Normal variable1 value: " << variable1 << std::endl;
+    std::cout << "Normal variable2 value: " << variable2 << std::endl;
+
+    //REFERENCES                                                                        As references point TO THE SAME ADDRESS of original variables, they contain the
+    std::cout << "REFERENCE variable1 value: " << variable1_reference << std::endl;     //same values as their parent variables => hence the name REFERENCES
+    std::cout << "REFERENCE variable2 value: " << variable2_reference << std::endl;
+
+    std::cout << "-----------------ADDRESSES---------------" << std::endl;
+
+    //NORMAL VARIABLE ADDRESSES
+    std::cout << "Normal variable1 address: " << &variable1 << std::endl;
+    std::cout << "Normal variable2 address: " << &variable2 << std::endl;
+
+    //REFERENCE VARIABLE ADDRESSES
+    std::cout << "Reference variable1 address: " << &variable1_reference << std::endl;  //As references point TO THE SAME ADDRESS of original variables, they contain the
+    std::cout << "Reference variable2 address: " << &variable2_reference << std::endl;  //same addresses as their original variables from where they are being referenced
+
+    //MODIFYING VALUES USING REFERENCES
+    int variable3 {1000};
+    int &ref_variable3 {variable3};
+
+    std::cout << "variable3 value is: " << variable3 << std::endl;
+    std::cout << "ref_variable3 value is: " << ref_variable3 << std::endl;
+
+    //CHANGING VALUE OF variable3 directly to check if its reference also picks up the new value
+    variable3 = 2000;                                                                   //variable3 value has been changed
+    std::cout << "variable3 value after changing is: " << variable3 << std::endl;       //changed value is reflecting
+    std::cout << "ref_variable3 value after changing is: " << ref_variable3 << std::endl;//reference also is picking up the new value of variable3
+
+    int variable4 {3000};
+    int &ref_variable4 = variable4;
+    std::cout << "variable4 value is: " << variable4 << std::endl;
+    std::cout << "ref_variable4 value is: " << ref_variable4 << std::endl;
+
+    //CHANGING VALUE OF REFERENCE TO CHECK IF ITS VARIABLE ALSO PICKS UP THE NEW VALUE
+    ref_variable4 = 5000;
+    std::cout << "variable4 value after changing referencing is: " << variable4 << std::endl;       //if value is changed using reference, the value is picked up even by
+    std::cout << "ref_variable4 value after changing referencing is: " << ref_variable4 << std::endl;//its original variable => SO WORKING WITH REFERENCE IS SAME AS 
+    //WORKING WITH A VARIABLE DIRECTLY, REFERENCES ARE JUST ALIAS'
     return 0;
 }
