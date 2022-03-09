@@ -10,7 +10,7 @@ int main(int argc, char **argv){
     std::cout << "Address of global age BEFORE determine_age(): " << &age << std::endl;
 
     //as a reference variable will point to the SAME address as its original variable, any modifications to a reference WILL affect the ORIGINAL variable
-    determine_age(age);                                                                 //&<variable_name>is enough as compiler will automatically take the reference as param
+    determine_age(age);                                                                 //<variable_name>is enough as compiler will automatically take the reference as param
 
     std::cout << "Value of global age AFTER determine_age(): " << age << std::endl;     //value of original(global) variable will be modified via its reference variable
     
