@@ -22,7 +22,7 @@ int main(int argc, char **argv){
 double sum(double array[5], size_t count){                                                  //function definition
     double result {};
     for(size_t i {}; i < count; ++i){
-        result += i;                                                                        //possible because of non-const values
+        result += array[i];                                                                 //possible because of non-const values
     }
 
     return result;
