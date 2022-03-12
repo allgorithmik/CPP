@@ -26,4 +26,4 @@ int main(int argc, char **argv){
 int sum(int *val1, int *val2){                      //function definition
 
     return (*val1 + *val2);                         //when we want to modify the values pointed by pointers, first dereference them and then modify them, use ()
-}     
+}                                                   //better readability
