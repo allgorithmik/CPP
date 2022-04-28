@@ -1,9 +1,9 @@
 #include<iostream>
 
 //THIS LESSON IS THE SOLUTION FOR const OBJECTS AND PASSING const OBJECTS AS FUNCTION PARAMS / ARGS LESSONS
-//=> APPEND const TO MEMEBER FUNCTION SIGNATURES => COMPILER NOW KNOWS THAT THE MEMBER FUNCTION WILL NOT MODIFY THE MEMEBER VARIABLES
-//CAN BE SPLIT INTO PROTOTYPES AND DEFINTIONS
-//*****ACTUALLY, MEMBER FUNCTIONS WITH const CAN BE OVERLOADED => FUNCTIONS WITH const AND FUNCTIONS WITHOUT const ARE CONSIDERED TWO DIFFERENT FUNCTIONS*****
+//=> APPEND const TO MEMEBER FUNCTION SIGNATURES WHOSE DEFINITION DOES NOT MODIFY ANYMEMBER VARIABLES => COMPILER NOW KNOWS THAT THE MEMBER FUNCTION WILL NOT
+//MODIFY THE MEMEBER VARIABLES => EVEN THESE FUNCTIONS CAN BE SPLIT INTO PROTOTYPES AND DEFINTIONS
+//*****ACTUALLY, MEMBER FUNCTIONS WITH const CAN BE OVERLOADED => FUNCTIONS WITH const AND FUNCTIONS WITHOUT const ARE CONSIDERED TWO DIFFERENT FUNCTIONS (lINE 20)*****
 
 class Animal{
     public:
@@ -26,14 +26,22 @@ class Animal{
 
 };
 
-void some_func1(Animal animal);
-void some_func2(Animal &animal);
-void some_func3(const Animal &animal);
-void some_func4(Animal *animal);
+//PASS const OBJECT BY VALUE
+void some_func1(Animal animal);                         //WORKS => NORMAL PASS BY VALUE
 
-Animal::Animal(){
+//PASS const OBJECT BY REFERENCE
+void some_func2(Animal &animal);                        //COMPILER ERROR => TRYING TO MODIFY A const OBJECT
 
-}
+//PASS const OBJECT BY const REFERENCE
+void some_func3(const Animal &animal);                  //WORKS => UNLESS THERE IS NO ANY MODIFYING CODE WITHIN THE FUNCTION
+
+//PASS const OBJECT BY POINTER
+void some_func4(Animal *animal);                        //COMPILER ERROR => WE CAN TRY TO MODIFY THE const OBJECT THROUGH THE POINTER
+
+//PASS const OBJECT BY POINTER TO CONST
+void some_func5(const Animal *animal);                  //WORKS => COMPILER KNOWS AND TRUSTS THAT WE WILL NOT MODIFY THE const OBJECT VIA POINTER
+
+Animal::Animal(){}
 
 Animal::Animal(const std::string_view name_param, const std::string_view breed_param, const int age_param){
     animal_name = name_param;
@@ -84,6 +92,7 @@ void Animal::print_info(){                              //OVERLOADED MEMEBER FUN
 int main(int argc, char **argv){
 
     const Animal animal1("NAME", "BREED", 100);
+    const Animal animal2;                               //PLEASE REMEMBER TO DEFINE AN EMPTY CONSTRUCTOR => HAD WASTED A LOT OF TIME IN PREVIOUS LESSONS
 
     animal1.get_age();                                  //NOW READING MEMEBER VARIABLES FROM const OBJECTS WORKS => APPENDED const IN FUNCTION SIGNATURES
     animal1.print_info();                               //NOW READING MEMEBER VARIABLES FROM const OBJECTS WORKS => APPENDED const IN FUNCTION SIGNATURES
@@ -99,22 +108,34 @@ int main(int argc, char **argv){
     return 0;
 }
 
-void some_func1(Animal animal){
+//PASSING A const OBJECT BY VALUE
+void some_func1(Animal animal){                         //PASS const OBJECT BY VALUE => WORKS => NORMAL PASS BY VALUE
     animal.get_name();
     animal.print_info();
 }
 
-void some_func2(Animal &animal){
+//PASSNG A const OBJECT BY REFERENCE
+void some_func2(Animal &animal){                        //PASS const OBJECT BY REFERENCE => COMPILER ERROR => TRYING TO MODIFY A const OBJECT
     animal.get_name();
     animal.print_info();
 }
 
-void some_func3(const Animal &animal){                  //NOW POSSIBLE TO PASS const OBJECTS AS const REFERENCE VARIABLES
-    animal.get_name();
+//PASSNG A const OBJECT BY const REFERENCE
+void some_func3(const Animal &animal){                  //PASS const OBJECT BY const REFERENCE => WORKS => UNLESS THERE IS NO ANY MODIFYING CODE WITHIN THE FUNCTION
+    animal.get_name();                                  //UNLESS THE CODE IN THE FUNCTION BODY DOES NOT TRY TO MODIFY THE MEMBER VALUES
+    //animal.set_name("CHANGED_NAME");                    //COMPILER ERROR AS THIS LINE IS TRYING TO CHANGE A MEMBER VARIABLE
     animal.print_info();
 }
 
-void some_func4(Animal *animal){
+//PASSNG A const OBJECT BY POINTER
+void some_func4(Animal *animal){                        //PASS const OBJECT BY POINTER => COMPILER ERROR => WE CAN TRY TO MODIFY THE const OBJECT THROUGH THE POINTER
     animal->get_name();
+    animal->print_info();
+}
+
+//PASSNG A const OBJECT BY POINTER TO const
+void some_func5(const Animal *animal){                  //PASS const OBJECT BY POINTER TO CONST => WORKS => COMPILER KNOWS WE WILL NOT MODIFY THE const OBJECT VIA POINTER
+    animal->get_name();                                 //UNLESS THE CODE IN THE FUNCTION BODY DOES NOT TRY TO MODIFY THE MEMBER VALUES
+    //animal->set_name("CHANGED_NAME");                   //COMPILER ERROR AS THIS LINE IS TRYING TO CHANGE A MEMBER VARIABLE
     animal->print_info();
 }
