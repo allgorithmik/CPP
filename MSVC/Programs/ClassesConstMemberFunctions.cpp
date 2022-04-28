@@ -26,6 +26,11 @@ class Animal{
 
 };
 
+void some_func1(Animal animal);
+void some_func2(Animal &animal);
+void some_func3(const Animal &animal);
+void some_func4(Animal *animal);
+
 Animal::Animal(){
 
 }
@@ -78,7 +83,7 @@ void Animal::print_info(){                              //OVERLOADED MEMEBER FUN
 
 int main(int argc, char **argv){
 
-    const Animal animal1;
+    const Animal animal1("NAME", "BREED", 100);
 
     animal1.get_age();                                  //NOW READING MEMEBER VARIABLES FROM const OBJECTS WORKS => APPENDED const IN FUNCTION SIGNATURES
     animal1.print_info();                               //NOW READING MEMEBER VARIABLES FROM const OBJECTS WORKS => APPENDED const IN FUNCTION SIGNATURES
@@ -87,5 +92,29 @@ int main(int argc, char **argv){
     //animal1.set_age("100");                           //SETTING IS NOT POSSIBLE AS WE ARE TRYNG TO MODIFY A const VARIABLE
     animal1.print_info();                               //WHICH IMPEMENTATION OF print_info() WILL BE EXECUTED?
 
+    some_func1(animal1);
+    //some_func2(animal1);
+    some_func3(animal1);
+    //some_func4(&animal1);
     return 0;
+}
+
+void some_func1(Animal animal){
+    animal.get_name();
+    animal.print_info();
+}
+
+void some_func2(Animal &animal){
+    animal.get_name();
+    animal.print_info();
+}
+
+void some_func3(const Animal &animal){                  //NOW POSSIBLE TO PASS const OBJECTS AS const REFERENCE VARIABLES
+    animal.get_name();
+    animal.print_info();
+}
+
+void some_func4(Animal *animal){
+    animal->get_name();
+    animal->print_info();
 }
