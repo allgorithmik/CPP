@@ -1,99 +1,51 @@
 #include<iostream>
 
-//POINTS TO REMEMBER ABOUT const CORRECTNESS:
-//FOR const OBJECTS WE CAN ONLY CALL const MEMBER FNCTIONS
-//const OBJECTS ARE COMPLETELY NON-MODIFIABLE (IMMUTABLE), THE COMPILER WILL NOT ALLOW CALLING A MEMBER FUNCTION THAT MODIFIES THE const OBJECT IN ANY WAY
-//WE ARE NOT ALLOWED TO MODIFY THE OBJECT IN ANY WAY INSIDE A const MEMBER FUNCTIONS
-//JUST AS WE ARE NOT ALLOWED TO DIRECTLY MODIFY THE OBJECT INSIDE A const MEMBER FUNCTION, WE ARE NOT ALLOWED TO CALL A METHOD THAT MODIFIES THE OBJECT INDIRECTLY EITHER
-//ANY ATTEMPT TO MODIFIES AN OBJECT'S MEMBER VARIABLE (DIRECTLY OT INDIRECTLY) FROM WITHIN A const MEMBER FUNCTION WILL RESULT IN A COMPILER ERROR
-//WE CANNOT CALL ANY non-const MEMBER FUNCTIONS FROM WTHIN A const MEMBER FUNCTION
+//Constructors ae a window to customize how our own class objects are built during execution
 
-class Animal{
+const double PI {3.142};
 
+class Cylinder{
     public:
-    Animal();
-
-    Animal(const std::string name_param, const std::string breed_param, const int age_param);
-
-    void set_animal_name(const std::string  name);
-    void set_animal_breed(const std::string breed);
-    void set_animal_age(const int age);
-    std::string get_animal_name();
-    std::string get_animal_breed();
-    int get_animal_age();
-    void print_info();
+    //HAVING A DEFAULT CONSTRUCTOR WITH NO PARAMS / ARGS ALONG WITH A CONSTRUCTOR WITH DEFAULT VALUES FOR ALL ITS PARAMS WILL RESULT IN A COMPILER ERROR AS THE
+    //CONSTRUCTOR WITH DEFAULT VALUES FOR ITS PARAMS CAN BE CALLED WITH NO ARGUMENTS DURING CLASS INSTANTIATION => HENCE COMPILER WILL BE CONFUSED RESULTING IN A
+    //COMPILE TIME ERROR
+        Cylinder() = default;
+        Cylinder(const double base_param = 200.5, const double height_param = 100.99);  //default value for constructor params given during constructor declaration
+        double CylinderVolume();
+        double get_base() const;
+        double get_height() const;
 
     private:
-    std::string animal_name;
-    std::string animal_breed;
-    int animal_age;
+        double cylinder_base;
+        double cylnder_height;
 };
 
-Animal::Animal(const std::string name_param, const std::string breed_param, const int age_param){
-    animal_name = name_param;
-    animal_breed = breed_param;
-    animal_age = age_param;
+Cylinder::Cylinder(const double base_param, const double height_param){         //default value for constructor params given during constructor declaration and implementation
+    cylinder_base = base_param;
+    cylnder_height = height_param;
 }
 
-void Animal::set_animal_name(const std::string name){
-    animal_name = name;
+double Cylinder::CylinderVolume(){
+    return cylinder_base * cylinder_base * cylnder_height * PI;
 }
 
-void Animal::set_animal_breed(const std::string breed){
-    animal_breed = breed;
+double Cylinder::get_base() const{
+    return cylinder_base;
 }
 
-void Animal::set_animal_age(const int age){
-    animal_age = age;
-}
-
-std::string Animal::get_animal_name(){
-    return animal_name;
-}
-
-std::string Animal::get_animal_breed(){
-    return animal_breed;
-}
-
-int Animal::get_animal_age(){
-    return animal_age;
-}
-
-void Animal::print_info(){
-    std::cout << "The name of the animal: " << animal_name << std::endl;
-    std::cout << "The breed of " << animal_name << " is: " << animal_breed << std::endl;
-    std::cout << "The age of " << animal_name << " is: " << animal_age << std::endl;
+double Cylinder::get_height() const{
+    return cylnder_height;
 }
 
 int main(int argc, char **argv){
 
-    //IF WE FLAG THE OBJECT AS const => NONE OF THE METHODS WILL WORK (setters / getters / normal) NO MATTER HOW WE TRY ACCESS THE MEMBERS / FUNCTIONS (pointer / reference)
-    const Animal animal("animal", "breed", 10);         //DECLARING A const OBJECT WITH PARAMS / ARGS
+    //Cylinder cylinder0;                                                         //COMPILER ERROR AS THE COMPILER IS CONFUSED AS TO WHICH COMPILER TO CALL(REFER LINE 9 - 11)
+    Cylinder cylinder1(55);                                                     //second param need not be given as it has a default value in the constructor declaration
+    std::cout << "Cylinder_base value: " << cylinder1.get_base() << std::endl;
+    std::cout << "Cylinder_height from default value: " << cylinder1.get_height() << std::endl; //takes the default value
 
-    //animal.set_animal_name("some name");                //CANNOT MODIFY VALUE AS ITS A const VALUE => COMPILER ERROR
-    //animal.print_info()                                 //CANNOT READ EITHER!!!!! => COMPILER ERROR
-    //animal.get_animal_name();                           //CANNOT READ EITHER!!!!! => COMPILER ERROR
-
-    //std::string var1 = animal.get_animal_name();        //CANNOT READ EITHER!!!!! => COMPILER ERROR
-
-    //THE REASON WHY EVEN THE getters (WHICH ONLY READ VALUES AND NOT MODIFY VALUES) WILL GIVE COMPILER ERRORS IS BECAUSE WE HAVE NO WAY TO DIFFERENTIATE AND TELL
-    //COMPILER THE DIFFERENCE BETWEEN METHODS THAT JUST READ THE VALUES (getters) AND METHODS THAT MODIFY THE VALUES (setters) SOLUTION IN SUBSEQUENT CHAPTERS
-
-    //WHAT IF WE TRY MODIFYING / RETRIEVING VALUES VIA POINTERS => BOTTOM LINE IS NOT POSSIBLE EITHER
-    Animal *animal1;
-    animal1->print_info();                              //PROGRAM CRASHES! => THIS PROVES WE CANNOT READ / MODIFY VALUES EVEN VIA POINTERS
-    //Animal *animal2 = &animal;                          //FIRST OF ITS COMPILER ERROR BECAUSE OF non-const ASSIGNING TO const OBJECT=>BUT EVEN IF const OBJECT NOT POSSIBLE
-    //animal2->set_animal_breed("BREED");                 //CANNOT READ VIA POINTERS EITHER!!!!! => COMPILER ERROR
-
-    //WHAT IF WE TRY MODIFYING / RETRIEVING VALUES VIA REFERENCES => BOTTOM LINE IS NOT POSSIBLE EITHER
-    //Animal &animal3 = &animal;                          //FIRST OF ITS COMPILER ERROR BECAUSE OF non-const ASSIGNING TO const OBJECT=>BUT EVEN IF const OBJECT NOT POSSIBLE
-    const Animal &animal4 = animal;
-    //animal4.get_animal_age();                           //COMPILER ERROR => CANNOT READ / MODIFY EITHER
-
-    //GOING THROUGH POINTER TO CONST
-    const Animal *animal2 = &animal;
-    //animal2->get_animal_age();                          //COMPILER ERROR => CANNOT READ / MODIFY EITHER
-
+    Cylinder cylinder2(200.99, 300.99);                                         //user given value will override the default param value in constructor declaration
+    std::cout << "Cylinder_base value: " << cylinder2.get_base() << std::endl;
+    std::cout << "Cylinder_height from user given value: " << cylinder2.get_height() << std::endl;  //takes the user given value
     return 0;
-    
 }
