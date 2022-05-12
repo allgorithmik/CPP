@@ -76,11 +76,14 @@ Point::~Point(){
 }
 
 int main(int argc, char **argv){
+    
     //Point p1(10.0, 20.99);
     //p1.print_info();
 
     //CREATE TEMPORARY OBJECTS 
     Point p2(std::move(Point(20.99, 30.99)));   //PLEASE NOTE THE std::move() => THIS FORCES THE COMPILER TO NOT USE COPY CONSTRUCTOR AND USE MOVE SEMANTICS INSTEAD
     p2.print_info();                            //ELSE THERE IS A CHANCE THE COMPILER MIGHT PERFORM OPTIMIZATIONS DURING COMPILATION AND INSTEAD USE COPY CONSTRUCTOR
+
     return 0;
+
 }
