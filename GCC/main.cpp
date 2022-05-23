@@ -1,31 +1,30 @@
 #include<iostream>
 
-//Deleted Constructors => Disable a Constructor from being used to create objects => this is required when we do not want our objecs to be copied
+//Aggregates group together entities in a container like data structure. These containers are initialized using INITIALIZER LIST CONSTRUCTORS. Some of the aggregates we
+//already use are arrays, structs. In this lesson we use structs to initialize the aggregates as arrays are built in and we do not want to mess with it using our own
+//constructors. USING INITIALIZER LIST CONSTRUCTORS, WE CAN MODIFY THE DEFAULT BEHAVIOUR OF INITIALIZERS WHICH INITIALIZE THE AGGREGATES
 
-class Person{
-    private:
-        std::string name {};
-        int age {};
+struct Point{                                                       //struct members are PUBLIC by default
+public:
+    Point(std::initializer_list<double> list){
+        std::cout << "Initializer List Constrctor called" << std::endl;
+        std::cout << "List size is: " << list.size()  << std::endl;
+        std::cout << "First Element is: " << **(list.begin())  << std::endl;    //Dereference it
+        std::cout << "List size is: " << *(list.begin() + 1)  << std::endl;     //Dereference it
+        list.x = list.begin();
+    }
 
-    public:
-        Person() = delete;                                                                  //this is the DEFAULT constructor
-        Person(const Person &source_person) = delete;                                       //this constructor is deleted and hence cannot be called for created an object
-        Person(Person &&source_person) = delete;                                            //this constructor is deleted and hence cannot be called for created an object
-        Person(std::string name_param, int age_param);                                      //this constructor CAN be called to create an object
-        void print_info();
+    void print_info() const{
+        std::cout << "X: " << x << " Y: " << y  << std::endl;
+    }
+
+private:
+    double x;
+    double y;
 };
 
-Person::Person(std::string name_param, int age_param) : name(name_param), age(age_param){}  //implementation of NON-DELETED constructor
-//DELETED / DISABLED CONSTRUCTORS NEED NOT BE IMPLEMENTED
-
-void Person::print_info(){
-    std::cout << "Name of Person is: " << this->name << " and age is: " << this->age << std::endl;
-}
-
 int main(int argc, char **argv){
-    
-    //Person();                                                                               //COMPILER ERROR =>default constructor is deleted / disabled=>hence not callable
-    Person p1("Some_name", 100);                                                            //calling a copy constructor to create an object
-    p1.print_info();
+    Point p1 {10.99, 11.99};                                        //default initializer list for initializing the struct
+    //std::cout << "X: " << p1.x << " Y: " << p1.y  << std::endl;   //COMPILER ERROR => x and y are no longer public => they have been made private
     return 0;
 }
